@@ -4,18 +4,19 @@
 # On importe MongoClient, le "chauffeur" qui fait le trajet entre ton code et le serveur MongoDB
 from pymongo import MongoClient
 
+# 1. CONNEXION AU SERVEUR
+# On se connecte au serveur qui tourne sur ton propre ordinateur (localhost) sur le port 27017
+client = MongoClient("localhost", 27017)
+
+# 2. ACCÈS À LA BASE DE DONNÉES
+# On accède à (ou on crée) la base de données nommée "game_db"
+db = client["game_db"]
+
 
 def init_database():
-    # 1. CONNEXION AU SERVEUR
-    # On se connecte au serveur qui tourne sur ton propre ordinateur (localhost) sur le port 27017
-    client = MongoClient("localhost", 27017)
-    
-    # 2. ACCÈS À LA BASE DE DONNÉES
-    # On accède à (ou on crée) la base de données nommée "game_db"
-    db = client["game_db"]
 
-    # 3. DÉFINITION DES COLLECTIONS (LES "TIROIRS")
-    # On crée des variables pour pointer vers nos collections. 
+    # 3. DÉFINITION DES COLLECTIONS (LES "TI=ROIRS")
+    # On crée des variables pour pointer vers nos collections.
     # Intérêt : si tu changes le nom "characters" ici, il est mis à jour partout dans ton script
     personnages_col = db.characters
     ennemis_col = db.enemy
@@ -25,7 +26,7 @@ def init_database():
     # Le dictionnaire vide {} signifie "supprime TOUT sans condition"
     personnages_col.delete_many({})
     ennemis_col.delete_many({})
-    
+
     # 5. PRÉPARATION DES DONNÉES
     # On utilise des listes de dictionnaires {}. C'est le format "Document" que MongoDB adore
     ListeCharacter = [
@@ -63,9 +64,9 @@ def init_database():
     # On ferme la porte du serveur proprement pour libérer de la mémoire sur ton PC
     client.close()
 
+
 # 9. DÉCLENCHEMENT DU SCRIPT
 # Cette condition vérifie si on a cliqué sur "Play" sur ce fichier précis.
 # Si oui, on lance la fonction init_database()
 if __name__ == "__main__":
     init_database()
-    
