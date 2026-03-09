@@ -3,7 +3,7 @@
 
 # On importe MongoClient, le "chauffeur" qui fait le trajet entre ton code et le serveur MongoDB
 from pymongo import MongoClient
-from main import ChoixCharacter
+
 
 def init_database():
     # 1. CONNEXION AU SERVEUR
@@ -69,5 +69,3 @@ def init_database():
 if __name__ == "__main__":
     init_database()
     
-    
-ChoixCharacter
