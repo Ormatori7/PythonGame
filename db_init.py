@@ -13,19 +13,23 @@ client = MongoClient("localhost", 27017)
 db = client["game_db"]
 
 
-def init_database():
+# 3. DÉFINITION DES COLLECTIONS (LES "TI=ROIRS")
+# On crée des variables pour pointer vers nos collections.
+# Intérêt : si tu changes le nom "characters" ici, il est mis à jour partout dans ton script
+personnages_col = db.characters
+ennemis_col = db.enemy
+classement_col = db.classement
+equipe_col = db.equipe
 
-    # 3. DÉFINITION DES COLLECTIONS (LES "TI=ROIRS")
-    # On crée des variables pour pointer vers nos collections.
-    # Intérêt : si tu changes le nom "characters" ici, il est mis à jour partout dans ton script
-    personnages_col = db.characters
-    ennemis_col = db.enemy
+
+def init_database():
 
     # 4. NETTOYAGE (RESET)
     # On vide les tiroirs avant de les remplir pour éviter d'avoir 20 chevaliers si on lance le script 2 fois
     # Le dictionnaire vide {} signifie "supprime TOUT sans condition"
     personnages_col.delete_many({})
     ennemis_col.delete_many({})
+    equipe_col.delete_many({})
 
     # 5. PRÉPARATION DES DONNÉES
     # On utilise des listes de dictionnaires {}. C'est le format "Document" que MongoDB adore
@@ -46,6 +50,9 @@ def init_database():
         {"nom": "Ennemy1", "atk": 10, "def": 10, "hp": 100},
         {"nom": "Ennemy2", "atk": 15, "def": 15, "hp": 120},
         {"nom": "Ennemy3", "atk": 20, "def": 20, "hp": 150},
+        {"nom": "Ennemy4", "atk": 10, "def": 27, "hp": 180},
+        {"nom": "Ennemy5", "atk": 25, "def": 23, "hp": 130},
+        {"nom": "Ennemy6", "atk": 1, "def": 20, "hp": 200},
     ]
 
     # 6. INSERTION DANS LA BASE
@@ -62,7 +69,7 @@ def init_database():
 
     # 8. FERMETURE
     # On ferme la porte du serveur proprement pour libérer de la mémoire sur ton PC
-    client.close()
+    # client.close()
 
 
 # 9. DÉCLENCHEMENT DU SCRIPT

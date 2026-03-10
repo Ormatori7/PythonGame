@@ -1,6 +1,6 @@
 import pymongo
 import random
-from db_init import init_database, db
+from db_init import init_database, db, personnages_col, equipe_col
 
 
 # stocke le lien de la partie characters de ma db dans ma variable character_Dispo
@@ -11,7 +11,6 @@ character_Dispo = db[
 
 # le choix du player
 def choix_Menu():
-    init_database
     choix_saisie = input()
     if int(choix_saisie) == 1:
         # demarer le jeu
@@ -44,11 +43,11 @@ def choix_Nom(min_longeur, max_longeur):
 def personnage_Disponible():
     print(
         f"=========nombre de héros dipsonible: {character_Dispo.count_documents({})} ============"
-    )  # count => specifique a monogoDb car la c'est une object
+    )  # count => specifique a monogoDb car la c'est un object
     # afficher ma liste de héros
     for character in character_Dispo.find(
-        {}, {"_id": 0}
-    ):  # pour dire de cacher le champ id (0 pour false)
+        {}, {"_id": 0, "id_ref": 0}
+    ):  # pour dire de cacher le champ id/id ref (0 pour false)
         print(character)
 
 
@@ -60,19 +59,35 @@ def choose_Hero(heroRestant):
         )
         SelectionHero()
         heroRestant -= 1
+    presentationEquipe()
+
+
+def presentationEquipe():
+    print("Voici votre Equipe:")
+    for i in equipe_col.find({}, {"_id": 0, "id_ref": 0}):
+        print(i)
 
 
 def SelectionHero():
     while True:  # la logiqeu de la boucle infinie
         hero_choisi = input("entrer le nom du héro : ")
+        # aller chercher la ligne en elle mme pour le nom choisi pour prendre ttes les stats
+        heroInfo = personnages_col.find_one({"nom": hero_choisi})
         nomValide = Verification_Hero(hero_choisi)
         if nomValide:
             print(f"------{hero_choisi} a été ajouté a votre equipe-----")
+            AjouterHeroEquipe(heroInfo)
             return hero_choisi
         else:
             print(
                 f"<<<<<le héro -{hero_choisi}- n'est pas disponible, veuillez selection de nouveau>>>>>"
             )
+
+
+def AjouterHeroEquipe(heroInfo):
+    # ajouté character de db.character a db.equipe avec insert et delete
+    equipe_col.insert_one(heroInfo)
+    personnages_col.delete_one(heroInfo)
 
 
 def Verification_Hero(hero_choisi):
@@ -87,7 +102,6 @@ def Verification_Hero(hero_choisi):
 
 # la creation de l'equipe
 def menu_Creation_Equipe():
-    # boucle pour mes trois heros
     # choisir un heros depuis ma database
     choose_Hero(3)
 
@@ -104,7 +118,6 @@ def pseudoValide(saisieNom, min_longeur, max_longeur):
 
 
 def demarrage_jeu():
-    # initialiser la database
     # choisir un nom de personnage
     choix_Nom(3, 7)
     # creation de l'equipe
@@ -113,6 +126,7 @@ def demarrage_jeu():
 
 # fonction principale
 def Menu():
+    init_database()
     # afficher les choix disponnibles
     print("entre sur 1 pour demarer le jeu")
     print("entre sur 2 pour afficher le classement")
