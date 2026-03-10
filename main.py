@@ -1,6 +1,7 @@
 import pymongo
 import random
 from db_init import init_database, db, personnages_col, equipe_col
+from game import VagueCombat
 
 
 # stocke le lien de la partie characters de ma db dans ma variable character_Dispo
@@ -11,24 +12,30 @@ character_Dispo = db[
 
 # le choix du player
 def choix_Menu():
-    choix_saisie = input()
-    if int(choix_saisie) == 1:
-        # demarer le jeu
-        demarrage_jeu()
-    if int(choix_saisie) == 2:
-        # afficher le classement
-        print("affichage classement")
-    if int(choix_saisie) == 3:
-        print("Vous avez quitté le jeu")
-        quit()
-    else:
-        # message d'erreur
-        print("veuillez selectionner un choix valide")
+    while True:
+        choix_saisie = input()
+        if not choix_saisie.isnumeric():
+            print("veuillez renter un chiffre")
+            continue
+        if int(choix_saisie) == 1:
+            # demarer le jeu
+            demarrage_jeu()
+            break
+        if int(choix_saisie) == 2:
+            # afficher le classement
+            print("affichage classement")
+            break
+        if int(choix_saisie) == 3:
+            print("Vous avez quitté le jeu")
+            quit()
+        else:
+            # message d'erreur
+            print("veuillez selectionner un choix valide")
 
 
 # le choix du pseudo
 def choix_Nom(min_longeur, max_longeur):
-    print(f"Choissisez un nom entre {min_longeur} et {max_longeur} charactere")
+    print(f"===== Choissisez un nom entre {min_longeur} et {max_longeur} charactere ======")
     while True:
         saisieNom = input()
         if pseudoValide(saisieNom, min_longeur, max_longeur):
@@ -60,6 +67,8 @@ def choose_Hero(heroRestant):
         SelectionHero()
         heroRestant -= 1
     presentationEquipe()
+    VagueCombat()
+    
 
 
 def presentationEquipe():
@@ -128,9 +137,9 @@ def demarrage_jeu():
 def Menu():
     init_database()
     # afficher les choix disponnibles
-    print("entre sur 1 pour demarer le jeu")
-    print("entre sur 2 pour afficher le classement")
-    print("entre sur 3 pour quitter")
+    print("appuie sur 1 pour demarer le jeu")
+    print("appuie sur 2 pour afficher le classement")
+    print("appuie sur 3 pour quitter")
     choix_Menu()
 
 
