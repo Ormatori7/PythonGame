@@ -1,4 +1,4 @@
-from db_init import init_database, db, personnages_col, equipe_col
+from db_init import init_database, db, personnages_col, equipe_col, classement_col
 from game import VagueCombat
 from utils import pause
 
@@ -22,8 +22,9 @@ def choix_Menu():
             break
         if int(choix_saisie) == 2:
             # afficher le classement
-            print("affichage classement")
-            break
+            afficherClassemnt()
+            pause()
+            continue
         if int(choix_saisie) == 3:
             print("Vous avez quitté le jeu")
             quit()
@@ -32,9 +33,27 @@ def choix_Menu():
             print("veuillez selectionner un choix valide")
 
 
+# hero_Choisi = chooseRandomhero(equipe)
+#     hero_vie = hero_Choisi["hp"]
+#  classement = classement_col.find().sort("vague", 1).limit(1)
+
+# for i in equipe_col.find({}, {"_id": 0, "id_ref": 0}):
+#     print(i)
+
+
+def afficherClassemnt():
+    for i in classement_col.find({}, {"_id": 0}).sort("vague", -1).limit(3):
+        if classement_col is None:
+            print("pas encore de classement")
+        else:
+            print(i)
+
+
 # le choix du pseudo
 def choix_Nom(min_longeur, max_longeur):
-    print(f"===== Choissisez un nom entre {min_longeur} et {max_longeur} charactere ======")
+    print(
+        f"===== Choissisez un nom entre {min_longeur} et {max_longeur} charactere ======"
+    )
     while True:
         saisieNom = input("votre nom => : ")
         if pseudoValide(saisieNom, min_longeur, max_longeur):
@@ -57,7 +76,7 @@ def personnage_Disponible():
         print(character)
 
 
-def choose_Hero(heroRestant):
+def choose_Hero(heroRestant, pseudo):
     while heroRestant > 0:
         personnage_Disponible()
         print(
@@ -68,8 +87,7 @@ def choose_Hero(heroRestant):
         pause()
     presentationEquipe()
     pause()
-    VagueCombat()
-    
+    VagueCombat(pseudo)
 
 
 def presentationEquipe():
@@ -111,9 +129,9 @@ def Verification_Hero(hero_choisi):
 
 
 # la creation de l'equipe
-def menu_Creation_Equipe():
+def menu_Creation_Equipe(pseudo):
     # choisir un heros depuis ma database
-    choose_Hero(3)
+    choose_Hero(3, pseudo)
 
 
 # la validité du pseudo
@@ -129,9 +147,9 @@ def pseudoValide(saisieNom, min_longeur, max_longeur):
 
 def demarrage_jeu():
     # choisir un nom de personnage
-    choix_Nom(3, 7)
+    pseudo = choix_Nom(3, 10)
     # creation de l'equipe
-    menu_Creation_Equipe()
+    menu_Creation_Equipe(pseudo)
 
 
 # fonction principale

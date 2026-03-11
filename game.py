@@ -1,6 +1,7 @@
-from db_init import equipe_col, ennemis_col
+from db_init import equipe_col, ennemis_col, classement_col
 import random
 from utils import pause
+
 
 
 def preparerCombat():
@@ -9,7 +10,7 @@ def preparerCombat():
     return equipe
 
 
-def VagueCombat():
+def VagueCombat(pseudo):
     vagueActuel = 1
     equipe = preparerCombat()
     # on stock le monstre spawner
@@ -23,43 +24,50 @@ def VagueCombat():
         # on annonce le début de la vague et le numéro
         print(f"======= La vague n°{vagueActuel} va commencer =======")
         pause()
-        print(f"le monstre choisi est {NomMonstre}")
+        print(f"-----le monstre choisi est {NomMonstre}----------")
+        pause()
         # on appelle la logique combatLogique
-        victoire = combatLogique(equipe, vieMonstre, defenseMonstre, AttaqueMonstre)
+        victoire = combatLogique(
+            equipe, vieMonstre, defenseMonstre, AttaqueMonstre, NomMonstre
+        )
         # si victoire alors
         if victoire:
             # on affiche la vague
             print(f"======= La vague n°{vagueActuel} a été repousser =======")
+            pause()
             # on appelle la fonction d'incrementation de la vague
             vagueActuel = vagueIncrementation(vagueActuel)
+            Nouveaumonstre = spawnRandomMonstre()
+            vieMonstre = Nouveaumonstre["hp"]
+            defenseMonstre = Nouveaumonstre["def"]
+            NomMonstre = Nouveaumonstre["nom"]
+            AttaqueMonstre = Nouveaumonstre["atk"]
             # appeller fonction pour choisi un nouveau monstre
         # sinon
         else:
             # on appelle la fonction FinCombat
-            print("fin du combat")
-            FinCombat()
+            FinCombat(vagueActuel, pseudo)
             break
 
 
 # monstre["atk"]         equipe[0]["hp"] -= 50
-def combatLogique(equipe, vieMonstre, defenseMonstre, atk_Monstre):
+def combatLogique(equipe, vieMonstre, defenseMonstre, atk_Monstre, NomMonstre):
     # on check si toujours en vie et on return true false pour la condition d'aprés
     while vieMonstre > 0 and CheckEquipeToujoursEnVie(equipe):
         # pour chaque héro dans l'equipe
         for hero in equipe:
             # les héro attaque avce fonction Attaque
-            vieMonstre = AttaqueLeMonstre(hero, vieMonstre, defenseMonstre)
+            vieMonstre = AttaqueLeMonstre(hero, vieMonstre, defenseMonstre, NomMonstre)
             # si le monstre est toujours en vie
             if vieMonstre <= 0:
                 return True
             # attaque un hero random de l'equipe si a survecu
             pause()
         # monstre attaque qlq aléatoirement avec fonction Attaque
-        AttaqueRandomHero(atk_Monstre, equipe)
-
+        AttaqueRandomHero(atk_Monstre, equipe, NomMonstre)
         Equipe_en_vie = CheckEquipeToujoursEnVie(equipe)
         if Equipe_en_vie:
-            print("l'equipe a survecu au combat")
+            print("l'equipe continue d'attaquer")
         else:
             print("l'equipe n'as pas survecu")
             pause()
@@ -79,7 +87,7 @@ def combatLogique(equipe, vieMonstre, defenseMonstre, atk_Monstre):
         return False
 
 
-def AttaqueLeMonstre(attaquant, vieMonstre, defenseMonstre):
+def AttaqueLeMonstre(attaquant, vieMonstre, defenseMonstre, nomMonstre):
     degat = attaquant["atk"]
     # retirer vie en sa basant sur value de l'attaque
     # le zero pour eviter de se faire soigner par defense
@@ -87,18 +95,21 @@ def AttaqueLeMonstre(attaquant, vieMonstre, defenseMonstre):
     Vie_restante = vieMonstre - degats_subis
     if Vie_restante < 0:
         Vie_restante = 0
-    print(
-        f"Le monstre subit {degat} degats mais reduit les degats de {defenseMonstre} et finit avec {Vie_restante} de vie"
-    )
+        print("======= le monstre est mort =======")
+    else:
+        print(
+            f"Le {nomMonstre} subit {degat} degats mais reduit les degats de {defenseMonstre} et finit avec {Vie_restante} de vie"
+        )
+
     return Vie_restante
 
 
-def AttaqueRandomHero(atk_Monstre, equipe):
+def AttaqueRandomHero(atk_Monstre, equipe, NomMonstre):
     hero_Choisi = chooseRandomhero(equipe)
     hero_vie = hero_Choisi["hp"]
     hero_defense = hero_Choisi["def"]
     heroNom = hero_Choisi["nom"]
-    print(f"le monster attaque le {heroNom} de {atk_Monstre} degats")
+    print(f"<<<< {NomMonstre} attaque le {heroNom} de {atk_Monstre} degats >>>>")
     pause()
     print()
     VieRestante = hero_vie - max(0, atk_Monstre - hero_defense)
@@ -115,10 +126,12 @@ def AttaqueRandomHero(atk_Monstre, equipe):
 
 def CheckHeroToujoursEnVie(hero_choisi, equipe):
     if hero_choisi["hp"] <= 0:
-        print(f"le hero {hero_choisi["nom"]} est mort")
+        print(f"~~~~~ le hero {hero_choisi["nom"]} est mort ~~~~~")
         retirerHeromort(hero_choisi, equipe)
     else:
-        print(f"le hero {hero_choisi["nom"]} a maintenant {hero_choisi["hp"]} de vie")
+        print(
+            f">>>>>> le hero {hero_choisi["nom"]} a maintenant {hero_choisi["hp"]} de vie >>>>>>"
+        )
     # pour le hero attaqué, check sa vie, si c'est <= 0 alors:
     # appeller la fonction retirerHeroMort
     return
@@ -140,9 +153,12 @@ def CheckEquipeToujoursEnVie(equipe):
             return False
 
 
-def FinCombat():
-    # recuperer le numéro de la vague
-    # ajouter dans la partie classement a coté du nom
+# {"nom": "le robot", "atk": 10, "def": 5, "hp": 100},
+
+def FinCombat(vagueActuel, pseudo):
+    print("fin du combat, votre score a été ajouté au classement")
+    score = [{"nom": pseudo, "vague": vagueActuel}]
+    classement_col.insert_many(score)
     return
 
 

@@ -37,22 +37,22 @@ def init_database():
         {"id_ref": "1", "nom": "Prince", "atk": 15, "def": 10, "hp": 100},
         {"id_ref": "2", "nom": "sorcier", "atk": 15, "def": 20, "hp": 75},
         {"id_ref": "3", "nom": "archer", "atk": 20, "def": 5, "hp": 90},
-        {"id_ref": "4", "nom": "bouclier", "atk": 15, "def": 40, "hp": 120},
-        {"id_ref": "5", "nom": "PoidLourd", "atk": 15, "def": 50, "hp": 150},
+        {"id_ref": "4", "nom": "bouclier", "atk": 15, "def": 0, "hp": 120},
+        {"id_ref": "5", "nom": "PoidLourd", "atk": 15, "def": 10, "hp": 150},
         {"id_ref": "6", "nom": "Assasin", "atk": 50, "def": 15, "hp": 80},
         {"id_ref": "7", "nom": "Russe", "atk": 25, "def": 5, "hp": 200},
-        {"id_ref": "8", "nom": "Roi", "atk": 15, "def": 50, "hp": 200},
+        {"id_ref": "8", "nom": "Roi", "atk": 15, "def": 8, "hp": 200},
         {"id_ref": "9", "nom": "Fou", "atk": 90, "def": 5, "hp": 25},
         {"id_ref": "10", "nom": "Paysan", "atk": 15, "def": 5, "hp": 50},
     ]
 
     ListeEnemy = [
-        {"nom": "Ennemy1", "atk": 10, "def": 5, "hp": 100},
-        {"nom": "Ennemy2", "atk": 15, "def": 15, "hp": 120},
-        {"nom": "Ennemy3", "atk": 20, "def": 20, "hp": 150},
-        {"nom": "Ennemy4", "atk": 10, "def": 27, "hp": 180},
-        {"nom": "Ennemy5", "atk": 25, "def": 23, "hp": 130},
-        {"nom": "Ennemy6", "atk": 1, "def": 20, "hp": 200},
+        {"nom": "le robot", "atk": 10, "def": 5, "hp": 100},
+        {"nom": "le fantome", "atk": 15, "def": 15, "hp": 120},
+        {"nom": "le chevalier de l'apocalypse", "atk": 20, "def": 10, "hp": 150},
+        {"nom": "le zombie", "atk": 10, "def": 10, "hp": 100},
+        {"nom": "le Dragon", "atk": 25, "def": 7, "hp": 130},
+        {"nom": "Le mime", "atk": 25, "def": 8, "hp": 150},
     ]
 
     # 6. INSERTION DANS LA BASE

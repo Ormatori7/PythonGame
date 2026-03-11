@@ -1,4 +1,6 @@
 import time
 
 def pause():
-    time.sleep(1)
+    time.sleep(0)
+
+
