@@ -1,6 +1,6 @@
 from db_init import init_database, db, personnages_col, equipe_col, classement_col
 from game import VagueCombat
-from utils import pause
+from utils import pause, cleanScreen
 
 
 # stocke le lien de la partie characters de ma db dans ma variable character_Dispo
@@ -8,11 +8,12 @@ character_Dispo = db[
     "characters"
 ]  # on le defini au debut comme ca reutilisable partout
 
+# os.system("cls")  to clean the screen
 
 # le choix du player
 def choix_Menu():
     while True:
-        choix_saisie = input("votre choix => :")
+        choix_saisie = input("que voulez vous faire? => :")
         if not choix_saisie.isnumeric():
             print("veuillez renter un chiffre")
             continue
@@ -39,6 +40,7 @@ def choix_Menu():
 
 # for i in equipe_col.find({}, {"_id": 0, "id_ref": 0}):
 #     print(i)
+
 
 
 def afficherClassemnt():
@@ -85,6 +87,7 @@ def choose_Hero(heroRestant, pseudo):
         SelectionHero()
         heroRestant -= 1
         pause()
+        cleanScreen()
     presentationEquipe()
     pause()
     VagueCombat(pseudo)
@@ -130,6 +133,7 @@ def Verification_Hero(hero_choisi):
 
 # la creation de l'equipe
 def menu_Creation_Equipe(pseudo):
+    cleanScreen()
     # choisir un heros depuis ma database
     choose_Hero(3, pseudo)
 
@@ -137,6 +141,7 @@ def menu_Creation_Equipe(pseudo):
 # la validité du pseudo
 def pseudoValide(saisieNom, min_longeur, max_longeur):
     if saisieNom.isnumeric():
+        print("Veuillez renter des charactere, pas des chiffres")
         return False
     if len(saisieNom) < min_longeur:
         return False
@@ -146,6 +151,7 @@ def pseudoValide(saisieNom, min_longeur, max_longeur):
 
 
 def demarrage_jeu():
+    cleanScreen()
     # choisir un nom de personnage
     pseudo = choix_Nom(3, 10)
     # creation de l'equipe
