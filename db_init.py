@@ -35,7 +35,7 @@ def init_database():
     # On utilise des listes de dictionnaires {}. C'est le format "Document" que MongoDB adore
     ListeCharacter = [
         {"id_ref": "1", "nom": "Prince", "atk": 15, "def": 10, "hp": 100},
-        {"id_ref": "2", "nom": "sorcier", "atk": 15, "def": 20, "hp": 75},
+        {"id_ref": "2", "nom": "sorcier", "atk": 15, "def": 10, "hp": 75},
         {"id_ref": "3", "nom": "archer", "atk": 20, "def": 5, "hp": 90},
         {"id_ref": "4", "nom": "bouclier", "atk": 15, "def": 0, "hp": 120},
         {"id_ref": "5", "nom": "PoidLourd", "atk": 15, "def": 10, "hp": 150},

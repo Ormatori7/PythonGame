@@ -21,22 +21,14 @@ def VagueCombat(pseudo):
     AttaqueMonstre = monstre["atk"]
     # tant qu'il reste des héro disponible
     while len(equipe) > 0:
-        # on annonce le début de la vague et le numéro
-        print(f"======= La vague n°{vagueActuel} va commencer =======")
-        pause()
-        print(f"-----le monstre choisi est {NomMonstre}----------")
-        pause()
-        cleanScreen()
-        # on appelle la logique combatLogique
+        AnnoncerInfo(vagueActuel, NomMonstre)
         victoire = combatLogique(
             equipe, vieMonstre, defenseMonstre, AttaqueMonstre, NomMonstre
         )
         # si victoire alors
         if victoire:
             # on affiche la vague
-            print(f"======= La vague n°{vagueActuel} a été repousser =======")
-            pause()
-            cleanScreen()
+            infoNouvelleVague(vagueActuel)
             # on appelle la fonction d'incrementation de la vague
             vagueActuel = vagueIncrementation(vagueActuel)
             Nouveaumonstre = spawnRandomMonstre()
@@ -52,7 +44,23 @@ def VagueCombat(pseudo):
             break
 
 
-# monstre["atk"]         equipe[0]["hp"] -= 50
+def AnnoncerInfo(vagueActuel, NomMonstre):
+    # on annonce le début de la vague et le numéro
+    print(f"======= La vague n°{vagueActuel} va commencer =======")
+    pause()
+    print(f"-----le monstre choisi est {NomMonstre}----------")
+    pause()
+    cleanScreen()
+    # on appelle la logique combatLogique
+
+
+def infoNouvelleVague(vagueActuel):
+    print(f"======= La vague n°{vagueActuel} a été repousser =======")
+    pause()
+    pause()
+    cleanScreen()
+
+
 def combatLogique(equipe, vieMonstre, defenseMonstre, atk_Monstre, NomMonstre):
     # on check si toujours en vie et on return true false pour la condition d'aprés
     while vieMonstre > 0 and CheckEquipeToujoursEnVie(equipe):
@@ -70,29 +78,27 @@ def combatLogique(equipe, vieMonstre, defenseMonstre, atk_Monstre, NomMonstre):
         AttaqueRandomHero(atk_Monstre, equipe, NomMonstre)
         Equipe_en_vie = CheckEquipeToujoursEnVie(equipe)
         if Equipe_en_vie:
-            pause()
-            cleanScreen()
-            print("l'equipe continue d'attaquer")
-            pause()
-            cleanScreen()
+            InfoContinuerCombat()
         else:
-            print("l'equipe n'as pas survecu")
-            pause()
-            pause()
-            cleanScreen()
+            InfoTerminerCombat()
             return False
-
-            # si qlq est mort on tchek si c'est un des héros
-            # si oui alors
-            # on tcheck si il reste des héros
-            # si oui alors
-            # on appelle la fonction pour retirer le hero mort de l'equipe
-            # si non alors
-            # on return false
-            # si non
-            # on return True (victoire lors de la vague)
     else:
         return False
+
+
+def InfoContinuerCombat():
+    pause()
+    cleanScreen()
+    print("l'equipe continue d'attaquer")
+    pause()
+    cleanScreen()
+
+
+def InfoTerminerCombat():
+    print("l'equipe n'as pas survecu")
+    pause()
+    pause()
+    cleanScreen()
 
 
 def AttaqueLeMonstre(attaquant, vieMonstre, defenseMonstre, nomMonstre):

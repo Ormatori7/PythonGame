@@ -10,6 +10,7 @@ character_Dispo = db[
 
 # os.system("cls")  to clean the screen
 
+
 # le choix du player
 def choix_Menu():
     while True:
@@ -40,7 +41,6 @@ def choix_Menu():
 
 # for i in equipe_col.find({}, {"_id": 0, "id_ref": 0}):
 #     print(i)
-
 
 
 def afficherClassemnt():
