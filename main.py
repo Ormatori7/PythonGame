@@ -1,7 +1,6 @@
-import pymongo
-import random
 from db_init import init_database, db, personnages_col, equipe_col
 from game import VagueCombat
+from utils import pause
 
 
 # stocke le lien de la partie characters de ma db dans ma variable character_Dispo
@@ -13,7 +12,7 @@ character_Dispo = db[
 # le choix du player
 def choix_Menu():
     while True:
-        choix_saisie = input()
+        choix_saisie = input("votre choix => :")
         if not choix_saisie.isnumeric():
             print("veuillez renter un chiffre")
             continue
@@ -37,7 +36,7 @@ def choix_Menu():
 def choix_Nom(min_longeur, max_longeur):
     print(f"===== Choissisez un nom entre {min_longeur} et {max_longeur} charactere ======")
     while True:
-        saisieNom = input()
+        saisieNom = input("votre nom => : ")
         if pseudoValide(saisieNom, min_longeur, max_longeur):
             return saisieNom
 
@@ -66,7 +65,9 @@ def choose_Hero(heroRestant):
         )
         SelectionHero()
         heroRestant -= 1
+        pause()
     presentationEquipe()
+    pause()
     VagueCombat()
     
 

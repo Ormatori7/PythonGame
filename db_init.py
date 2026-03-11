@@ -40,14 +40,14 @@ def init_database():
         {"id_ref": "4", "nom": "bouclier", "atk": 15, "def": 40, "hp": 120},
         {"id_ref": "5", "nom": "PoidLourd", "atk": 15, "def": 50, "hp": 150},
         {"id_ref": "6", "nom": "Assasin", "atk": 50, "def": 15, "hp": 80},
-        {"id_ref": "7", "nom": "Russe", "atk": 5, "def": 5, "hp": 200},
-        {"id_ref": "8", "nom": "Roi", "atk": 10, "def": 50, "hp": 200},
+        {"id_ref": "7", "nom": "Russe", "atk": 25, "def": 5, "hp": 200},
+        {"id_ref": "8", "nom": "Roi", "atk": 15, "def": 50, "hp": 200},
         {"id_ref": "9", "nom": "Fou", "atk": 90, "def": 5, "hp": 25},
-        {"id_ref": "10", "nom": "Paysan", "atk": 5, "def": 5, "hp": 50},
+        {"id_ref": "10", "nom": "Paysan", "atk": 15, "def": 5, "hp": 50},
     ]
 
     ListeEnemy = [
-        {"nom": "Ennemy1", "atk": 10, "def": 10, "hp": 100},
+        {"nom": "Ennemy1", "atk": 10, "def": 5, "hp": 100},
         {"nom": "Ennemy2", "atk": 15, "def": 15, "hp": 120},
         {"nom": "Ennemy3", "atk": 20, "def": 20, "hp": 150},
         {"nom": "Ennemy4", "atk": 10, "def": 27, "hp": 180},
