@@ -199,3 +199,7 @@ def chooseRandomhero(equipe):
 
 
 # changer le monstre choisi random
+
+
+
+
