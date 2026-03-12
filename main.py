@@ -44,10 +44,13 @@ def choix_Menu():
 
 
 def afficherClassemnt():
-    for i in classement_col.find({}, {"_id": 0}).sort("vague", -1).limit(3):
-        if classement_col is None:
-            print("pas encore de classement")
-        else:
+    resultat = list(classement_col.find({}, {"_id": 0}).sort("vague", -1).limit(3))
+    # if classement_col is None:
+    # on regarde si ma variable retourne qlq chose
+    if not resultat:
+        print("pas encore de classement")
+    else:
+        for i in resultat:
             print(i)
 
 

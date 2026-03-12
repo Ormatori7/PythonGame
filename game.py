@@ -156,7 +156,7 @@ def CheckHeroToujoursEnVie(hero_choisi, equipe):
 
 def retirerHeromort(hero_choisi, equipe):
     equipe.remove(hero_choisi)
-    #  heroInfo = personnages_col.find_one({"nom": hero_choisi})
+    # heroInfo = personnages_col.find_one({"nom": hero_choisi})
     # personnages_col.delete_one(heroInfo)
     return
 
